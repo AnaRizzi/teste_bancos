@@ -58,16 +58,19 @@ namespace AnaAPI.Controllers
             return Created("", response);
         }
 
-        // PUT api/<ClienteController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpGet("comentarios/{id}")]
+        public IActionResult BuscarComentarios(int id)
         {
-        }
+            var comentarios = _service.BuscarComentarios(id);
 
-        // DELETE api/<ClienteController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            if (comentarios.Count == 0)
+            {
+                return NotFound("Nenhum comentário encontrado");
+            }
+
+            var response = JsonSerializer.Serialize(comentarios);
+
+            return Ok(response);
         }
     }
 }

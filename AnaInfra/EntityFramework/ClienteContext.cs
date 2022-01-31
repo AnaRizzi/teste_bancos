@@ -5,6 +5,9 @@ namespace AnaInfra.EntityFramework
 {
     public class ClienteContext : DbContext
     {
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Comentario> Comentario { get; set; }
+
         private string _connection;
 
         public ClienteContext(string ConnectionString)
@@ -12,11 +15,10 @@ namespace AnaInfra.EntityFramework
             _connection = ConnectionString;
         }
 
-        public DbSet<Cliente> Clientes { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new ClienteConfig());
+            modelBuilder.ApplyConfiguration(new ComentarioConfig());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

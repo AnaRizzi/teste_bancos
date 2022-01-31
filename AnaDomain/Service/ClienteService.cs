@@ -1,10 +1,6 @@
 ﻿using AnaDomain.Interfaces;
 using AnaDomain.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AnaDomain.Service
 {
@@ -17,21 +13,32 @@ namespace AnaDomain.Service
             _clienteDao = clienteDAO;
         }
 
-        public Cliente Buscar(int id)
+        public ClienteResponse Buscar(int id)
         {
             var cliente = _clienteDao.Buscar(id);
 
-            return cliente;
+            if (cliente == null)
+            {
+                return null;
+            }
+            return new ClienteResponse(cliente);
         }
 
-        public List<Cliente> BuscarTodos()
+        public IList<ClienteResponse> BuscarTodos()
         {
-            var lista = _clienteDao.BuscarTodos();
+            var clientes = _clienteDao.BuscarTodos();
+
+            if (clientes == null)
+            {
+                return new List<ClienteResponse>();
+            }
+
+            var lista = ClienteResponse.CriarListaDeClientes(clientes);
 
             return lista;
         }
 
-        public Cliente Cadastrar(ClienteRequest request)
+        public ClienteResponse Cadastrar(ClienteRequest request)
         {
             var cliente = new Cliente()
             {
@@ -40,7 +47,22 @@ namespace AnaDomain.Service
             };
             _clienteDao.Cadastrar(cliente);
 
-            return cliente;
+            var response = new ClienteResponse(cliente);
+            return response;
+        }
+
+        public IList<ComentarioResponse> BuscarComentarios(int idCliente)
+        {
+            var comentarios = _clienteDao.BuscarComentarios(idCliente);
+
+            if (comentarios == null)
+            {
+                return new List<ComentarioResponse>();
+            }
+
+            var lista = ComentarioResponse.CriarListaDeComentarios(comentarios);
+
+            return lista;
         }
     }
 }

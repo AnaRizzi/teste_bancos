@@ -5,10 +5,11 @@ namespace AnaDomain.Interfaces
 {
     public interface IClienteService
     {
-        Cliente Cadastrar(ClienteRequest request);
+        ClienteResponse Cadastrar(ClienteRequest request);
 
-        Cliente Buscar(int id);
+        ClienteResponse Buscar(int id);
 
-        List<Cliente> BuscarTodos();
+        IList<ClienteResponse> BuscarTodos();
+        IList<ComentarioResponse> BuscarComentarios(int idCliente);
     }
 }

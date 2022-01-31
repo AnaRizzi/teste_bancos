@@ -10,9 +10,8 @@ namespace AnaDomain.Interfaces
     public interface IClienteDAO
     {
         void Cadastrar(Cliente cliente);
-
         Cliente Buscar(int id);
-
         List<Cliente> BuscarTodos();
+        List<Comentario> BuscarComentarios(int idCliente);
     }
 }

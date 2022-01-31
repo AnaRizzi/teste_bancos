@@ -1,5 +1,6 @@
 ﻿using AnaDomain.Interfaces;
 using AnaDomain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,15 @@ namespace AnaInfra.EntityFramework
         public List<Cliente> BuscarTodos()
         {
             var lista = context.Clientes.ToList();
+            return lista;
+        }
+
+        public List<Comentario> BuscarComentarios(int idCliente)
+        {
+            var lista = context.Comentario
+                .Include(i => i.Cliente)
+                .Where(c => c.Cliente.Id == idCliente)
+                .ToList();
             return lista;
         }
     }
