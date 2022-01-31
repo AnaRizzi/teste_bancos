@@ -72,5 +72,21 @@ namespace AnaAPI.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost("comentarios")]
+        public IActionResult InserirComentarios(ComentarioRequest request)
+        {
+            try
+            {
+                _service.InserirComentario(request);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
 }

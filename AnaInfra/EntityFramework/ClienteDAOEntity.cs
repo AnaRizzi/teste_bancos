@@ -37,6 +37,14 @@ namespace AnaInfra.EntityFramework
             return lista;
         }
 
+        public Cliente BuscarPorCpf(string cpf)
+        {
+            var cliente = context.Clientes
+                .Where(c => c.Cpf == cpf)
+                .FirstOrDefault();
+            return cliente;
+        }
+
         public List<Comentario> BuscarComentarios(int idCliente)
         {
             var lista = context.Comentario
@@ -44,6 +52,12 @@ namespace AnaInfra.EntityFramework
                 .Where(c => c.Cliente.Id == idCliente)
                 .ToList();
             return lista;
+        }
+
+        public void CadastrarComentario(Comentario comentario)
+        {
+            context.Comentario.Add(comentario);
+            context.SaveChanges();
         }
     }
 }

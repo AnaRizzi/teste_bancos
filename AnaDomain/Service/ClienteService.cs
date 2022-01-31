@@ -1,5 +1,6 @@
 ﻿using AnaDomain.Interfaces;
 using AnaDomain.Models;
+using System;
 using System.Collections.Generic;
 
 namespace AnaDomain.Service
@@ -63,6 +64,23 @@ namespace AnaDomain.Service
             var lista = ComentarioResponse.CriarListaDeComentarios(comentarios);
 
             return lista;
+        }
+
+        public void InserirComentario(ComentarioRequest request)
+        {
+            var cliente = _clienteDao.BuscarPorCpf(request.Cpf);
+            if (cliente == null)
+            {
+                throw new Exception("Cliente não encontrado");
+            }
+
+            Comentario comentario = new Comentario()
+            {
+                Mensagem = request.Comentario,
+                Cliente = cliente
+            };
+
+            _clienteDao.CadastrarComentario(comentario);
         }
     }
 }
