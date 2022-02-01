@@ -21,7 +21,7 @@ namespace AnaDomain.Models
         public static IList<ComentarioResponse> CriarListaDeComentarios(IList<Comentario> lista)
         {
             IList<ComentarioResponse> novaLista = new List<ComentarioResponse>();
-            foreach(var item in lista)
+            foreach (var item in lista)
             {
                 var comentario = new ComentarioResponse(item);
                 novaLista.Add(comentario);

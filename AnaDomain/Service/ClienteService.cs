@@ -10,11 +10,13 @@ namespace AnaDomain.Service
     {
         private IClienteDAO _clienteDao;
         private ILogsDAO _logsDao;
+        private IMongoDb _mongoDb;
 
-        public ClienteService(IClienteDAO clienteDAO, ILogsDAO logsDAO)
+        public ClienteService(IClienteDAO clienteDAO, ILogsDAO logsDAO, IMongoDb mongoDb)
         {
             _clienteDao = clienteDAO;
             _logsDao = logsDAO;
+            _mongoDb = mongoDb;
         }
 
         public ClienteResponse Buscar(int id)
@@ -58,6 +60,8 @@ namespace AnaDomain.Service
 
             _logsDao.RegistrarLog(LogsMessages.Cadastro);
 
+            _mongoDb.RegistrarInformacoes(BsonDocumentConverter.Converter(cliente));
+
             var response = new ClienteResponse(cliente);
             return response;
         }
@@ -93,6 +97,8 @@ namespace AnaDomain.Service
             _clienteDao.CadastrarComentario(comentario);
 
             _logsDao.RegistrarLog(LogsMessages.Comentario);
+
+            _mongoDb.RegistrarInformacoes(BsonDocumentConverter.Converter(comentario));
 
         }
     }

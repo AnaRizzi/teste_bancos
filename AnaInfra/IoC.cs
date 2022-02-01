@@ -1,6 +1,7 @@
 ﻿using AnaDomain.Interfaces;
 using AnaDomain.Service;
 using AnaInfra.EntityFramework;
+using AnaInfra.Mongo;
 using AnaInfra.Postgre;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,6 +37,7 @@ namespace AnaInfra
         {
             services.AddScoped<IClienteDAO, ClienteDAOEntity>();
             services.AddScoped<ILogsDAO, LogsDAO>(c => new LogsDAO(configuration.GetConnectionString("Postgre")));
+            services.AddScoped<IMongoDb, MongoDb>(c => new MongoDb(configuration.GetConnectionString("MongoDb")));
         }
     }
 }
