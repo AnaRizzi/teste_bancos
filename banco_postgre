@@ -1,0 +1,9 @@
+
+CREATE TABLE IF NOT EXISTS meuslogs
+(
+    id SERIAL PRIMARY KEY,
+    acao VARCHAR(150) NOT NULL,
+    feito_em TIMESTAMP DEFAULT now()
+)
+
+select * from meuslogs

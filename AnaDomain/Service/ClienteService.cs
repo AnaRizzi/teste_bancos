@@ -1,4 +1,5 @@
-﻿using AnaDomain.Interfaces;
+﻿using AnaDomain.Enums;
+using AnaDomain.Interfaces;
 using AnaDomain.Models;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,12 @@ namespace AnaDomain.Service
     public class ClienteService : IClienteService
     {
         private IClienteDAO _clienteDao;
+        private ILogsDAO _logsDao;
 
-        public ClienteService(IClienteDAO clienteDAO)
+        public ClienteService(IClienteDAO clienteDAO, ILogsDAO logsDAO)
         {
             _clienteDao = clienteDAO;
+            _logsDao = logsDAO;
         }
 
         public ClienteResponse Buscar(int id)
@@ -22,6 +25,9 @@ namespace AnaDomain.Service
             {
                 return null;
             }
+
+            _logsDao.RegistrarLog(LogsMessages.BuscaId);
+
             return new ClienteResponse(cliente);
         }
 
@@ -36,6 +42,8 @@ namespace AnaDomain.Service
 
             var lista = ClienteResponse.CriarListaDeClientes(clientes);
 
+            _logsDao.RegistrarLog(LogsMessages.Busca);
+
             return lista;
         }
 
@@ -47,6 +55,8 @@ namespace AnaDomain.Service
                 Cpf = request.Cpf
             };
             _clienteDao.Cadastrar(cliente);
+
+            _logsDao.RegistrarLog(LogsMessages.Cadastro);
 
             var response = new ClienteResponse(cliente);
             return response;
@@ -81,6 +91,9 @@ namespace AnaDomain.Service
             };
 
             _clienteDao.CadastrarComentario(comentario);
+
+            _logsDao.RegistrarLog(LogsMessages.Comentario);
+
         }
     }
 }

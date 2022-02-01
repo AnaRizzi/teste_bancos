@@ -1,6 +1,7 @@
 ﻿using AnaDomain.Interfaces;
 using AnaDomain.Service;
 using AnaInfra.EntityFramework;
+using AnaInfra.Postgre;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -34,6 +35,7 @@ namespace AnaInfra
         public static void RegisterRepositories(IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IClienteDAO, ClienteDAOEntity>();
+            services.AddScoped<ILogsDAO, LogsDAO>(c => new LogsDAO(configuration.GetConnectionString("Postgre")));
         }
     }
 }
