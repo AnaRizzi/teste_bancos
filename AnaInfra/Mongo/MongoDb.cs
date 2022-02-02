@@ -1,11 +1,6 @@
 ﻿using AnaDomain.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AnaInfra.Mongo
 {
@@ -14,18 +9,19 @@ namespace AnaInfra.Mongo
         private readonly string _connection;
         private IMongoClient _client;
         private IMongoDatabase bancoDados;
+        private readonly MongoConfig _config;
 
-        public MongoDb(string connection)
+        public MongoDb(string connection, MongoConfig config)
         {
             _connection = connection;
-
+            _config = config;
         }
 
         private IMongoCollection<BsonDocument> Conectar()
         {
             _client = new MongoClient(_connection);
-            bancoDados = _client.GetDatabase("teste");
-            IMongoCollection<BsonDocument> colecao = bancoDados.GetCollection<BsonDocument>("teste");
+            bancoDados = _client.GetDatabase(_config.Database);
+            IMongoCollection<BsonDocument> colecao = bancoDados.GetCollection<BsonDocument>(_config.Collection);
 
             return colecao;
         }

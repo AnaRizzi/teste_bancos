@@ -5,11 +5,6 @@ using AnaInfra.Mongo;
 using AnaInfra.Postgre;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AnaInfra
 {
@@ -35,9 +30,11 @@ namespace AnaInfra
 
         public static void RegisterRepositories(IServiceCollection services, IConfiguration configuration)
         {
+            var config = configuration.GetSection("MongoConfig").Get<MongoConfig>();
+
             services.AddScoped<IClienteDAO, ClienteDAOEntity>();
             services.AddScoped<ILogsDAO, LogsDAO>(c => new LogsDAO(configuration.GetConnectionString("Postgre")));
-            services.AddScoped<IMongoDb, MongoDb>(c => new MongoDb(configuration.GetConnectionString("MongoDb")));
+            services.AddScoped<IMongoDb, MongoDb>(c => new MongoDb(configuration.GetConnectionString("MongoDb"), config));
         }
     }
 }
